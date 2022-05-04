@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { signup, signin, signout } = require('../controllers/user.js');
+const {
+  signup,
+  signin,
+  signout,
+  requireSignin,
+} = require('../controllers/user.js');
 const { userSignupValidator } = require('../validator/index');
 
 router.post('/signup', userSignupValidator, signup);
