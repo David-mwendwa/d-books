@@ -19,15 +19,11 @@ const userSchema = new mongoose.Schema(
     },
     hashed_password: {
       type: String,
-      trim: true,
       required: true,
-      maxlength: 32,
     },
     about: {
       type: String,
       trim: true,
-      required: true,
-      maxlength: 32,
     },
     salt: String,
     role: {
