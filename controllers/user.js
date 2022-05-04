@@ -29,7 +29,7 @@ exports.signin = (req, res) => {
     }
 
     // if user is found, make sure email & password match
-    // create authenticate method in user model
+    // authenticate method created in user model
     if (!user.authenticate(password)) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
@@ -44,4 +44,9 @@ exports.signin = (req, res) => {
     const { _id, name, email, role } = user;
     return res.json({ token, user: { _id, email, name, role } });
   });
+};
+
+exports.signout = (req, res) => {
+  res.clearCookie('t');
+  res.status(StatusCodes.OK).json({ message: 'Signout success' });
 };
