@@ -23,7 +23,7 @@ exports.create = (req, res) => {
         error: errorHandler(err),
       });
     }
-    res.status(StatusCodes.CREATED).json({ data });
+    res.status(StatusCodes.CREATED).json(data);
   });
 };
 
@@ -41,7 +41,7 @@ exports.update = (req, res) => {
         error: 'Category Updated',
       });
     }
-    res.status(StatusCodes.OK).json({ data });
+    res.status(StatusCodes.OK).json(data);
   });
 };
 
@@ -56,5 +56,16 @@ exports.remove = (req, res) => {
     res
       .status(StatusCodes.OK)
       .json({ message: 'Category deleted', deletedCategory });
+  });
+};
+
+exports.list = (req, res) => {
+  Category.find().exec((err, data) => {
+    if (err) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: errorHandler(err),
+      });
+    }
+    res.status(StatusCodes.OK).json(data);
   });
 };
