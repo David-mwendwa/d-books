@@ -5,6 +5,23 @@ const fs = require('fs');
 const Product = require('../models/product');
 const { errorHandler } = require('../utils/dbErrorHandler');
 
+exports.productById = (req, res, next, id) => {
+  Product.findById(id).exec((err, product) => {
+    if (err || !product) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: 'Product not found' });
+    }
+    req.product = product;
+    next();
+  });
+};
+
+exports.read = (req, res) => {
+  req.product.photo = undefined;
+  return res.status(StatusCodes.OK).json(req.product);
+};
+
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
