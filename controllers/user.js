@@ -1,3 +1,4 @@
+const { StatusCodes } = require('http-status-codes');
 const User = require('../models/user');
 
 // looks for userId route param, if true,
@@ -5,7 +6,7 @@ const User = require('../models/user');
 exports.userById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
     if (err || !user) {
-      return res.status(400).json({
+      return res.status(StatusCodes.NOT_FOUND).json({
         error: 'User not found',
       });
     }

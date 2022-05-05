@@ -9,7 +9,7 @@ exports.productById = (req, res, next, id) => {
   Product.findById(id).exec((err, product) => {
     if (err || !product) {
       return res
-        .status(StatusCodes.BAD_REQUEST)
+        .status(StatusCodes.NOT_FOUND)
         .json({ error: 'Product not found' });
     }
     req.product = product;
@@ -88,7 +88,7 @@ exports.update = (req, res) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ error: 'Image could not be uploaded' });
     }
-    
+
     // update
     let product = req.product;
     product = _.extend(product, fields);
