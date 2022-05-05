@@ -51,20 +51,25 @@ exports.signout = (req, res) => {
   res.status(StatusCodes.OK).json({ message: 'Signout success' });
 };
 
+// makes sure / checks if token is available in the request
 exports.requireSignin = expressjwt({
   secret: process.env.JWT_SECRET,
   algorithms: ['HS256'],
   userProperty: 'auth',
 });
 
+// confirms if the user is who they claim they are
 exports.isAuth = (req, res, next) => {
-  let user = req.profile && req.auth && req.profile._id == req.auth._id;
+  console.log({ profile: req.profile, auth: req.auth });
+  let user =
+    req.profile && req.auth && String(req.profile._id) === req.auth._id;
   if (!user) {
     return res.status(StatusCodes.FORBIDDEN).json({ error: 'Access denied' });
   }
   next();
 };
 
+// check if the user is admin. If true, allows access to a route
 exports.isAdmin = (req, res, next) => {
   if (req.profile.role === 0) {
     return res
