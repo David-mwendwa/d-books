@@ -51,9 +51,25 @@ exports.create = (req, res) => {
 
     product.save((err, result) => {
       if (err) {
-        res.status(StatusCodes.BAD_REQUEST).json({ error: errorHandler(err) });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: errorHandler(err) });
       }
       res.status(StatusCodes.CREATED).json(result);
     });
+  });
+};
+
+exports.remove = (req, res) => {
+  let product = req.product;
+  product.remove((err, deletedProduct) => {
+    if (err) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: errorHandler(err) });
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ message: 'Product delete successfully', deletedProduct });
   });
 };
