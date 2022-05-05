@@ -5,12 +5,14 @@ const {
   create,
   productById,
   read,
-  remove,
+  list,
   update,
+  remove,
 } = require('../controllers/product');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth.js');
 const { userById } = require('../controllers/user');
 
+router.get('/products', list);
 router.get('/product/:productId', read);
 router.post('/product/create/:userId', requireSignin, isAuth, isAdmin, create);
 router.delete(

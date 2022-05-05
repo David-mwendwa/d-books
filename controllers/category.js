@@ -31,6 +31,17 @@ exports.read = (req, res) => {
   return res.status(StatusCodes.OK).json(req.category);
 };
 
+exports.list = (req, res) => {
+  Category.find().exec((err, data) => {
+    if (err) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: errorHandler(err),
+      });
+    }
+    res.status(StatusCodes.OK).json(data);
+  });
+};
+
 exports.update = (req, res) => {
   let category = req.category;
   //category = req.body.name;
@@ -56,16 +67,5 @@ exports.remove = (req, res) => {
     res
       .status(StatusCodes.OK)
       .json({ message: 'Category deleted', deletedCategory });
-  });
-};
-
-exports.list = (req, res) => {
-  Category.find().exec((err, data) => {
-    if (err) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        error: errorHandler(err),
-      });
-    }
-    res.status(StatusCodes.OK).json(data);
   });
 };

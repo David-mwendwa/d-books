@@ -17,11 +17,6 @@ exports.productById = (req, res, next, id) => {
   });
 };
 
-exports.read = (req, res) => {
-  req.product.photo = undefined;
-  return res.status(StatusCodes.OK).json(req.product);
-};
-
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -60,23 +55,20 @@ exports.create = (req, res) => {
   });
 };
 
-exports.remove = (req, res) => {
-  let product = req.product;
-  product.remove((err, deletedProduct) => {
-    if (err) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ error: errorHandler(err) });
-    }
-    res
-      .status(StatusCodes.OK)
-      .json({ message: 'Product delete successfully', deletedProduct });
-  });
-};
-
 exports.read = (req, res) => {
   req.product.photo = undefined;
   return res.status(StatusCodes.OK).json(req.product);
+};
+
+exports.list = (req, res) => {
+  Product.find().exec((err, data) => {
+    if (err) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: errorHandler(err),
+      });
+    }
+    res.status(StatusCodes.OK).json(data);
+  });
 };
 
 exports.update = (req, res) => {
@@ -111,5 +103,19 @@ exports.update = (req, res) => {
       }
       res.status(StatusCodes.CREATED).json(result);
     });
+  });
+};
+
+exports.remove = (req, res) => {
+  let product = req.product;
+  product.remove((err, deletedProduct) => {
+    if (err) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: errorHandler(err) });
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ message: 'Product delete successfully', deletedProduct });
   });
 };
