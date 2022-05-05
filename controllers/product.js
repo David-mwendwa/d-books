@@ -73,3 +73,43 @@ exports.remove = (req, res) => {
       .json({ message: 'Product delete successfully', deletedProduct });
   });
 };
+
+exports.read = (req, res) => {
+  req.product.photo = undefined;
+  return res.status(StatusCodes.OK).json(req.product);
+};
+
+exports.update = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: 'Image could not be uploaded' });
+    }
+    
+    // update
+    let product = req.product;
+    product = _.extend(product, fields);
+
+    if (files.photo) {
+      if (files.photo.size > 1000000) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: 'Image should be less than 1mb in size' });
+      }
+      product.photo.data = fs.readFileSync(files.photo.filepath);
+      product.photo.contentType = files.photo.mimetype;
+    }
+
+    product.save((err, result) => {
+      if (err) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: errorHandler(err) });
+      }
+      res.status(StatusCodes.CREATED).json(result);
+    });
+  });
+};
