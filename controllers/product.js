@@ -87,6 +87,26 @@ exports.list = (req, res) => {
     });
 };
 
+/**
+ * It will find products based on the request product category
+ * other products that have the same category, will be returned
+ */
+exports.listRelated = (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : '6';
+  console.log('req.body', req.product);
+  Product.find({ _id: { $ne: req.product }, category: req.product.category })
+    .limit(limit)
+    .populate('category', '_id name')
+    .exec((err, products) => {
+      if (err) {
+        return res.status(StatusCodes.NOT_FOUND).json({
+          error: 'Products not found',
+        });
+      }
+      res.status(StatusCodes.OK).json(products);
+    });
+};
+
 exports.update = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
