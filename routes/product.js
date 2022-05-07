@@ -7,6 +7,7 @@ const {
   read,
   list,
   listRelated,
+  listCategories,
   update,
   remove,
 } = require('../controllers/product');
@@ -15,6 +16,7 @@ const { userById } = require('../controllers/user');
 
 router.get('/products', list);
 router.get('/products/related/:productId', listRelated);
+router.get('/products/categories', listCategories);
 router.get('/product/:productId', read);
 router.post('/product/create/:userId', requireSignin, isAuth, isAdmin, create);
 router.delete(

@@ -93,7 +93,6 @@ exports.list = (req, res) => {
  */
 exports.listRelated = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : '6';
-  console.log('req.body', req.product);
   Product.find({ _id: { $ne: req.product }, category: req.product.category })
     .limit(limit)
     .populate('category', '_id name')
@@ -153,5 +152,19 @@ exports.remove = (req, res) => {
     res
       .status(StatusCodes.OK)
       .json({ message: 'Product delete successfully', deletedProduct });
+  });
+};
+
+/**
+ * Get all the categories that are used in the product model - distinct to product
+ */
+exports.listCategories = (req, res) => {
+  Product.distinct('category', {}, (err, categories) => {
+    if (err) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: 'Categories not found' });
+    }
+    res.status(StatusCodes.OK).json(categories);
   });
 };
