@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { signout } from '../auth';
 
 const isActive = (location, path) => {
   if (location.pathname === path) {
@@ -11,6 +12,7 @@ const isActive = (location, path) => {
 
 const Menu = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -35,6 +37,14 @@ const Menu = () => {
             style={isActive(location, '/signup')}>
             Signup
           </Link>
+        </li>
+        <li className='nav-item'>
+          <span
+            onClick={() => signout(() => navigate('/'))}
+            className='nav-link'
+            style={{ cursor: 'pointer', color: 'white' }}>
+            Signout
+          </span>
         </li>
       </ul>
     </div>
