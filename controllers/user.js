@@ -1,8 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
 const User = require('../models/user');
 
-// looks for userId route param, if true,
-// the method runs and makes the user available as 'profile' in the request object
+/**
+ * looks for userId route param, if true,
+ * the method runs and makes the user available as 'profile' in the request object
+ */
 exports.userById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
     if (err || !user) {
@@ -15,6 +17,9 @@ exports.userById = (req, res, next, id) => {
   });
 };
 
+/**
+ * Get user profile
+ */
 exports.read = (req, res) => {
   req.profile.hashed_password = undefined;
   req.profile.salt = undefined;
@@ -22,6 +27,9 @@ exports.read = (req, res) => {
   return res.status(StatusCodes.OK).json(req.profile);
 };
 
+/**
+ * Update user profile
+ */
 exports.update = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.profile._id },
