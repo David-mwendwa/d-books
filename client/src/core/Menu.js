@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { signout } from '../auth';
+import { signout, isAuthenticated } from '../auth';
 
 const isActive = (location, path) => {
   if (location.pathname === path) {
@@ -22,30 +22,36 @@ const Menu = () => {
             Home
           </Link>
         </li>
-        <li className='nav-item'>
-          <Link
-            to='/signin'
-            className='nav-link'
-            style={isActive(location, '/signin')}>
-            Signin
-          </Link>
-        </li>
-        <li className='nav-item'>
-          <Link
-            to='/signup'
-            className='nav-link'
-            style={isActive(location, '/signup')}>
-            Signup
-          </Link>
-        </li>
-        <li className='nav-item'>
-          <span
-            onClick={() => signout(() => navigate('/'))}
-            className='nav-link'
-            style={{ cursor: 'pointer', color: 'white' }}>
-            Signout
-          </span>
-        </li>
+        {!isAuthenticated() && (
+          <Fragment>
+            <li className='nav-item'>
+              <Link
+                to='/signin'
+                className='nav-link'
+                style={isActive(location, '/signin')}>
+                Signin
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
+                to='/signup'
+                className='nav-link'
+                style={isActive(location, '/signup')}>
+                Signup
+              </Link>
+            </li>
+          </Fragment>
+        )}
+        {isAuthenticated() && (
+          <li className='nav-item'>
+            <span
+              onClick={() => signout(() => navigate('/'))}
+              className='nav-link'
+              style={{ cursor: 'pointer', color: 'white' }}>
+              Signout
+            </span>
+          </li>
+        )}
       </ul>
     </div>
   );
