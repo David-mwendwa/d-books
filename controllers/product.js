@@ -208,3 +208,11 @@ exports.listBySearch = (req, res) => {
       res.status(StatusCodes.OK).json({ size: data.length, data });
     });
 };
+
+exports.photo = (req, res, next) => {
+  if (req.product.photo.data) {
+    res.set('Content-Type', req.product.photo.contentType);
+    return res.send(req.product.photo.data);
+  }
+  next();
+};
