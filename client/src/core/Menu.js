@@ -22,12 +22,22 @@ const Menu = () => {
             Home
           </Link>
         </li>
-        {isAuthenticated() && (
+        {isAuthenticated() && isAuthenticated().user.role === 0 && (
           <li className='nav-item'>
             <Link
               to='/user/dashboard'
               className='nav-link'
               style={isActive(location, '/user/dashboard')}>
+              Dashboard
+            </Link>
+          </li>
+        )}
+        {isAuthenticated() && isAuthenticated().user.role === 1 && (
+          <li className='nav-item'>
+            <Link
+              to='/admin/dashboard'
+              className='nav-link'
+              style={isActive(location, '/admin/dashboard')}>
               Dashboard
             </Link>
           </li>

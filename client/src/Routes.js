@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AdminRoute from './auth/AdminRoute';
 import PrivateRoute from './auth/PrivateRoute';
 import Home from './core/Home';
+import AdminDashboard from './user/AdminDashboard';
 import Signin from './user/Signin';
 import Signup from './user/Signup';
 import UserDashboard from './user/UserDashboard';
@@ -20,6 +22,15 @@ const _Routes = () => {
             <PrivateRoute>
               <UserDashboard />
             </PrivateRoute>
+          }
+          exact
+        />
+        <Route
+          path='/admin/dashboard'
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
           }
           exact
         />
