@@ -21,6 +21,11 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   // find the user based on email
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: 'Please provide email and password' });
+  }
   User.findOne({ email }, (error, user) => {
     if (error || !user) {
       return res
