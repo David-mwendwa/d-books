@@ -21,3 +21,22 @@ exports.read = (req, res) => {
 
   return res.status(StatusCodes.OK).json(req.profile);
 };
+
+exports.update = (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    { new: true },
+    (err, user) => {
+      if (err) {
+        return res
+          .status(StatusCodes.FORBIDDEN)
+          .json({ error: 'You are not authorized to perform this action' });
+      }
+      user.hashed_password = undefined;
+      user.salt = undefined;
+
+      return res.status(StatusCodes.OK).json(user);
+    }
+  );
+};
