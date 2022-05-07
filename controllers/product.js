@@ -168,3 +168,43 @@ exports.listCategories = (req, res) => {
     res.status(StatusCodes.OK).json(categories);
   });
 };
+
+/**
+ * List products by search
+ */
+exports.listBySearch = (req, res) => {
+  let order = req.query.order ? req.query.order : 'desc';
+  let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+  let limit = req.query.limit ? parseInt(req.query.limit) : '100';
+  let skip = parseInt(req.body.skip);
+
+  let findArgs = {};
+
+  for (const key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      if (key === 'price') {
+        findArgs[key] = {
+          $gte: req.body.filters[key][0],
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        findArgs[key] = req.body.filter[key];
+      }
+    }
+  }
+
+  Product.find(findArgs)
+    .select('-photo')
+    .populate('category')
+    .sort([[sortBy, order]])
+    .skip(skip)
+    .limit(limit)
+    .exec((err, data) => {
+      if (err) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .send({ error: 'Products not found' });
+      }
+      res.status(StatusCodes.OK).json({ size: data.length, data });
+    });
+};
