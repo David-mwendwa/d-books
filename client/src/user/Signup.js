@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../core/Layout';
+import { signup } from '../auth/index';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -16,23 +17,6 @@ const Signup = () => {
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
-  };
-
-  const signup = (user) => {
-    return fetch(`/api/v1/signup`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const clickSubmit = (event) => {
