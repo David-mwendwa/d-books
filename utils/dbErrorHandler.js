@@ -12,7 +12,7 @@ const uniqueMessage = (error) => {
       fieldName.slice(1) +
       ' already exists';
   } catch (error) {
-    output = 'Unique field alleady exists';
+    output = 'Unique field already exists';
   }
   return output;
 };

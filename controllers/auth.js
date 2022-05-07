@@ -10,7 +10,7 @@ exports.signup = (req, res) => {
     if (err) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ err: errorHandler(err) });
+        .json({ error: errorHandler(err) });
     }
     user.salt = undefined;
     user.hashed_password = undefined;
