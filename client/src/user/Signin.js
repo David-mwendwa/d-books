@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../core/Layout';
-import { signin, authenticate } from '../auth/index';
+import { signin, authenticate, isAuthenticated } from '../auth/index';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const Signin = () => {
   });
 
   const { email, password, loading, error, redirectToReferrer } = values;
+  const { user } = isAuthenticated();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -54,7 +55,11 @@ const Signin = () => {
 
   const redirectUser = () => {
     if (redirectToReferrer) {
-      navigate('/');
+      if (user && user.role === 1) {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/user/dashboard');
+      }
     }
   };
 

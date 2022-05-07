@@ -25,9 +25,9 @@ const Menu = () => {
         {isAuthenticated() && (
           <li className='nav-item'>
             <Link
-              to='/dashboard'
+              to='/user/dashboard'
               className='nav-link'
-              style={isActive(location, '/dashboard')}>
+              style={isActive(location, '/user/dashboard')}>
               Dashboard
             </Link>
           </li>

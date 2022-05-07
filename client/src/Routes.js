@@ -4,7 +4,7 @@ import PrivateRoute from './auth/PrivateRoute';
 import Home from './core/Home';
 import Signin from './user/Signin';
 import Signup from './user/Signup';
-import Dashboard from './user/UserDashboard';
+import UserDashboard from './user/UserDashboard';
 
 const _Routes = () => {
   return (
@@ -15,10 +15,10 @@ const _Routes = () => {
         <Route path='/signup' element={<Signup />} exact />
 
         <Route
-          path='/dashboard'
+          path='/user/dashboard'
           element={
             <PrivateRoute>
-              <Dashboard />
+              <UserDashboard />
             </PrivateRoute>
           }
           exact
