@@ -47,8 +47,34 @@ const AddProduct = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const clickSubmit = (e) => {
+    e.preventDefault();
+    for (const value of formData.values()) {
+      console.log({ value });
+    }
+    setValues({ ...values, error: '', loading: true });
+    createProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: '',
+          description: '',
+          price: '',
+          category: '',
+          shipping: '',
+          quantity: '',
+          photo: '',
+          loading: false,
+          createdProduct: data.name,
+        });
+      }
+    });
+  };
+
   const newPostForm = () => (
-    <form className='mb-3'>
+    <form className='mb-3' onSubmit={clickSubmit}>
       <h4>Post Photo</h4>
       <div className='form-group'>
         <label className='btn btn-secondary'>
@@ -91,7 +117,7 @@ const AddProduct = () => {
         <label htmlFor='category_field'>category</label>
         <select onChange={handleChange('category')} className='form-control'>
           <option value='627347b4446d448c4f49cf30'>Node</option>
-          <option value='Java'>Java</option>
+          <option value='627742c9f58c402c7af47e6b'>Java</option>
         </select>
       </div>
       <div className='form-group'>
