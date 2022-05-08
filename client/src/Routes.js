@@ -7,6 +7,7 @@ import AdminDashboard from './user/AdminDashboard';
 import Signin from './user/Signin';
 import Signup from './user/Signup';
 import UserDashboard from './user/UserDashboard';
+import AddCategory from './admin/AddCategory';
 
 const _Routes = () => {
   return (
@@ -25,11 +26,21 @@ const _Routes = () => {
           }
           exact
         />
+
         <Route
           path='/admin/dashboard'
           element={
             <AdminRoute>
               <AdminDashboard />
+            </AdminRoute>
+          }
+          exact
+        />
+        <Route
+          path='/create/category'
+          element={
+            <AdminRoute>
+              <AddCategory />
             </AdminRoute>
           }
           exact
