@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { logGreeting } from '../utils/logGreeting';
-import { createProduct } from './apiAdmin';
+import { createProduct, getCategories } from './apiAdmin';
 
 const AddProduct = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -37,8 +38,19 @@ const AddProduct = () => {
     formData,
   } = values;
 
+  // load categories and set form data
+  const init = () => {
+    getCategories().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({ ...values, categories: data, formData: new FormData() });
+      }
+    });
+  };
+
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
+    init();
   }, []);
 
   const handleChange = (name) => (e) => {
@@ -69,9 +81,29 @@ const AddProduct = () => {
           loading: false,
           createdProduct: data.name,
         });
+        setTimeout(() => navigate('/admin/dashboard'), 2000);
       }
     });
   };
+
+  const showError = () => (
+    <div
+      className='alert alert-danger'
+      style={{ display: error ? '' : 'none' }}>
+      {error}
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div
+      className='alert alert-success'
+      style={{ display: createdProduct ? '' : 'none' }}>
+      {`${createdProduct} is created`}
+    </div>
+  );
+
+  const showLoading = () =>
+    loading && <div className='alert alert-success'>Loading...</div>;
 
   const newPostForm = () => (
     <form className='mb-3' onSubmit={clickSubmit}>
@@ -116,8 +148,13 @@ const AddProduct = () => {
       <div className='form-group'>
         <label htmlFor='category_field'>category</label>
         <select onChange={handleChange('category')} className='form-control'>
-          <option value='627347b4446d448c4f49cf30'>Node</option>
-          <option value='627742c9f58c402c7af47e6b'>Java</option>
+          <option>Select</option>
+          {categories &&
+            categories.map((c, i) => (
+              <option key={c._id} value={c._id}>
+                {c.name}
+              </option>
+            ))}
         </select>
       </div>
       <div className='form-group'>
@@ -132,6 +169,7 @@ const AddProduct = () => {
       <div className='form-group'>
         <label htmlFor='shipping_field'>Shipping</label>
         <select onChange={handleChange('shipping')} className='form-control'>
+          <option>Select</option>
           <option value='0'>No</option>
           <option value='1'>Yes</option>
         </select>
@@ -147,7 +185,12 @@ const AddProduct = () => {
       title='Add a new product'
       description={`${logGreeting(user.name)}. Ready to add a new product?`}>
       <div className='row'>
-        <div className='col-md-8 offset-md-2'>{newPostForm()}</div>
+        <div className='col-md-8 offset-md-2'>
+          {showLoading()}
+          {showSuccess()}
+          {showError()}
+          {newPostForm()}
+        </div>
       </div>
     </Layout>
   );
