@@ -8,6 +8,7 @@ import Signin from './user/Signin';
 import Signup from './user/Signup';
 import UserDashboard from './user/UserDashboard';
 import AddCategory from './admin/AddCategory';
+import AddProduct from './admin/AddProduct';
 
 const _Routes = () => {
   return (
@@ -41,6 +42,15 @@ const _Routes = () => {
           element={
             <AdminRoute>
               <AddCategory />
+            </AdminRoute>
+          }
+          exact
+        />
+        <Route
+          path='/create/product'
+          element={
+            <AdminRoute>
+              <AddProduct />
             </AdminRoute>
           }
           exact
