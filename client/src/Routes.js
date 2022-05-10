@@ -9,12 +9,14 @@ import Signup from './user/Signup';
 import UserDashboard from './user/UserDashboard';
 import AddCategory from './admin/AddCategory';
 import AddProduct from './admin/AddProduct';
+import Shop from './core/Shop';
 
 const _Routes = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} exact />
+        <Route path='/shop' element={<Shop />} exact />
         <Route path='/signin' element={<Signin />} exact />
         <Route path='/signup' element={<Signup />} exact />
 
