@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
-import { getCategories } from './apiCore';
+import { getCategories, getFilteredProducts } from './apiCore';
 import Checkbox from './Checkbox';
 import Card from './Card';
 import { prices } from './fixedPrices';
@@ -11,6 +11,9 @@ const Shop = () => {
     filters: { category: [], price: [] },
   });
   const [categories, setCategories] = useState([]);
+  const [limit, setLimit] = useState(6);
+  const [skip, setSkip] = useState(0);
+  const [filteredResults, setFilteredResults] = useState(0);
   const [error, setError] = useState(false);
 
   const init = () => {
@@ -23,8 +26,20 @@ const Shop = () => {
     });
   };
 
+  const loadFilteredResults = (newfilters) => {
+    // console.log(newfilters);
+    getFilteredProducts(skip, limit, newfilters).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setFilteredResults(data);
+      }
+    });
+  };
+
   useEffect(() => {
     init();
+    loadFilteredResults()
   }, []);
 
   const handleFilters = (filters, filterBy) => {
@@ -36,6 +51,8 @@ const Shop = () => {
       let priceValues = handlePrice(filters);
       newfilters.filters[filterBy] = priceValues;
     }
+
+    loadFilteredResults(myFilters.filters);
 
     setMyFilters(newfilters);
   };
@@ -76,7 +93,7 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className='col-8'>{JSON.stringify(myFilters)}</div>
+        <div className='col-8'>{JSON.stringify(filteredResults)}</div>
       </div>
     </Layout>
   );
