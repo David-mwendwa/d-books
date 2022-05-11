@@ -5,6 +5,9 @@ import Checkbox from './Checkbox';
 import Card from './Card';
 
 const Shop = () => {
+  const [myFilters, setMyFilters] = useState({
+    filters: { category: [], price: [] },
+  });
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
 
@@ -23,7 +26,10 @@ const Shop = () => {
   }, []);
 
   const handleFilters = (filters, filterBy) => {
-    console.log(filters, filterBy);
+    // console.log(filters, filterBy);
+    const newfilters = { ...myFilters };
+    newfilters.filters[filterBy] = filters;
+    setMyFilters(newfilters);
   };
 
   return (
@@ -41,7 +47,9 @@ const Shop = () => {
             />
           </ul>
         </div>
-        <div className='col-8'>right</div>
+        <div className='col-8'>
+          {JSON.stringify(myFilters)}
+        </div>
       </div>
     </Layout>
   );
