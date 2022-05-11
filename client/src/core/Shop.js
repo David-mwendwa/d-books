@@ -3,6 +3,7 @@ import Layout from './Layout';
 import { getCategories } from './apiCore';
 import Checkbox from './Checkbox';
 import Card from './Card';
+import { prices } from './fixedPrices';
 
 const Shop = () => {
   const [myFilters, setMyFilters] = useState({
@@ -47,9 +48,7 @@ const Shop = () => {
             />
           </ul>
         </div>
-        <div className='col-8'>
-          {JSON.stringify(myFilters)}
-        </div>
+        <div className='col-8'>{JSON.stringify(myFilters)}</div>
       </div>
     </Layout>
   );
