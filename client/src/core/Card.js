@@ -9,7 +9,7 @@ const Card = ({ product }) => {
         <div className='card-header'>{product.name}</div>
         <div className='card-body'>
           <ShowImage item={product} url='product' />
-          <p>{product.description}</p>
+          <p>{product.description.substring(0, 100)}</p>
           <p>${product.price}</p>
           <div className='d-flex justify-content-between'>
             <Link to='/'>
