@@ -46,6 +46,15 @@ const Search = () => {
     }
   };
 
+  const searchMessage = (searched, results) => {
+    if (searched && results.length > 0) {
+      return `${results.length} product(s) found`;
+    }
+    if (searched && !results.length) {
+      return `No products found`;
+    }
+  };
+
   const searchSubmit = (e) => {
     e.preventDefault();
     searchData();
@@ -85,9 +94,12 @@ const Search = () => {
         </form>
       </div>
       <div className='container-fluid mb-3'>
-        <div className='row'>
-          {results &&
-            results.map((product, i) => <Card product={product} key={i} />)}
+        <div>
+          <h2 className='mt-4 mb-4'>{searchMessage(searched, results)}</h2>
+          <div className='row'>
+            {results &&
+              results.map((product, i) => <Card product={product} key={i} />)}
+          </div>
         </div>
       </div>
     </div>
