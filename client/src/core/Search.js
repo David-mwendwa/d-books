@@ -83,7 +83,12 @@ const Search = () => {
             </div>
           </span>
         </form>
-        {JSON.stringify(results)}
+      </div>
+      <div className='container-fluid mb-3'>
+        <div className='row'>
+          {results &&
+            results.map((product, i) => <Card product={product} key={i} />)}
+        </div>
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ export const getCategories = () => {
 };
 
 // TODO: filters doesn't seem to work perfectly
+// TODO: This method return all product on every search! Inspect backend for the bug
 export const getFilteredProducts = (skip, limit, filters = {}) => {
   const data = { limit, skip, filters };
 
@@ -33,11 +34,10 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     });
 };
 
-// TODO: This method return all product on every search! Inspect backend for the bug
 export const list = (params) => {
   const query = queryString.stringify(params);
   console.log({ params, query });
-  return fetch(`/api/v1/products?${query}`, {
+  return fetch(`/api/v1/products/search?${query}`, {
     method: 'GET',
   })
     .then((response) => response.json())
