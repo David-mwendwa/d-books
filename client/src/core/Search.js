@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
-import { getCategories } from './apiCore';
+import { getCategories, list } from './apiCore';
 import Card from './Card';
 
 const Search = () => {
@@ -28,9 +28,28 @@ const Search = () => {
     loadCategories();
   }, []);
 
-  const handleChange = () => {};
+  const handleChange = (name) => (event) => {
+    setData({ ...data, [name]: event.target.value, searched: false });
+  };
 
-  const searchSubmit = () => {};
+  const searchData = () => {
+    if (search) {
+      list({ search: search || undefined, category: category }).then(
+        (response) => {
+          if (response.error) {
+            console.log(response.error);
+          } else {
+            setData({ ...data, results: response, searched: true });
+          }
+        }
+      );
+    }
+  };
+
+  const searchSubmit = (e) => {
+    e.preventDefault();
+    searchData();
+  };
 
   return (
     <div className='row'>
@@ -53,7 +72,7 @@ const Search = () => {
               </div>
               <input
                 type='search'
-                style={{borderRadius: '4px'}}
+                style={{ borderRadius: '4px' }}
                 className='form-control'
                 placeholder='Search by name'
                 onChange={handleChange('search')}
@@ -64,6 +83,7 @@ const Search = () => {
             </div>
           </span>
         </form>
+        {JSON.stringify(results)}
       </div>
     </div>
   );

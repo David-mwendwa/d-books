@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 export const getProducts = (sortBy) => {
   return fetch(`/api/v1/products?sortBy=${sortBy}&order=desc&limit=6`, {
     method: 'GET',
@@ -29,4 +31,15 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+// TODO: This method return all product on every search! Inspect backend for the bug
+export const list = (params) => {
+  const query = queryString.stringify(params);
+  console.log({ params, query });
+  return fetch(`/api/v1/products?${query}`, {
+    method: 'GET',
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
 };
