@@ -6,15 +6,17 @@ const Product = require('../models/product');
 const { errorHandler } = require('../utils/dbErrorHandler');
 
 exports.productById = (req, res, next, id) => {
-  Product.findById(id).exec((err, product) => {
-    if (err || !product) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: 'Product not found' });
-    }
-    req.product = product;
-    next();
-  });
+  Product.findById(id)
+    .populate('category')
+    .exec((err, product) => {
+      if (err || !product) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: 'Product not found' });
+      }
+      req.product = product;
+      next();
+    });
 };
 
 exports.create = (req, res) => {
