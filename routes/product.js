@@ -8,6 +8,7 @@ const {
   list,
   listRelated,
   listCategories,
+  listSearch,
   listBySearch,
   photo,
   update,
@@ -20,6 +21,7 @@ router.post('/product/create/:userId', requireSignin, isAuth, isAdmin, create);
 
 router.get('/product/:productId', read);
 router.get('/products', list);
+router.get('/products/search', listSearch);
 router.get('/products/related/:productId', listRelated);
 router.get('/products/categories', listCategories);
 router.post('/products/by/search', listBySearch);

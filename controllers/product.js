@@ -216,3 +216,25 @@ exports.photo = (req, res, next) => {
   }
   next();
 };
+
+exports.listSearch = (req, res, next) => {
+  // create query object to hold search value and category value
+  const query = {};
+  // assign search value to query.name
+  if (req.query.search) {
+    query.name = { $regex: req.query.search, $options: 'i' };
+    // assign category value to query.category
+    if (req.query.category && req.query.category !== 'All') {
+      query.category = req.query.category;
+    }
+    // find the product based on query object with 2 properties, search & category
+    Product.find(query, (err, products) => {
+      if (err) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: errorHandler(err) });
+      }
+      res.status(StatusCodes.OK).json(products);
+    }).select('-photo'); // photo makes the request so slow
+  }
+};
