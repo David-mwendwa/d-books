@@ -12,7 +12,7 @@ const Card = ({ product }) => {
           <p>{product.description.substring(0, 100)}</p>
           <p>${product.price}</p>
           <div className='d-flex justify-content-between'>
-            <Link to='/'>
+            <Link to={`/product/${product._id}`}>
               <button className='btn btn-outline-primary mt-2 mb-2'>
                 View Product
               </button>
@@ -25,6 +25,6 @@ const Card = ({ product }) => {
       </div>
     </div>
   );
-}; 
+};
 
 export default Card;

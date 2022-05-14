@@ -10,6 +10,7 @@ import UserDashboard from './user/UserDashboard';
 import AddCategory from './admin/AddCategory';
 import AddProduct from './admin/AddProduct';
 import Shop from './core/Shop';
+import Product from './core/Product';
 
 const _Routes = () => {
   return (
@@ -19,6 +20,8 @@ const _Routes = () => {
         <Route path='/shop' element={<Shop />} exact />
         <Route path='/signin' element={<Signin />} exact />
         <Route path='/signup' element={<Signup />} exact />
+
+        <Route path='/product/:productId' element={<Product />} exact />
 
         <Route
           path='/user/dashboard'
