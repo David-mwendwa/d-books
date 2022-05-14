@@ -21,16 +21,20 @@ const Product = () => {
 
   useEffect(() => {
     loadSingleProduct(productId);
-  }, [productId]);
+  }, []);
 
   return (
     <Layout
-      title='Home Page'
-      description='D-Books | MERN Stack E-Commerce App'
+      title={product && product.name}
+      description={product && product.description}
       className='container-fluid'>
       <h2 className='mb-4'>Single Product</h2>
-      <div className="row">
-        {JSON.stringify(product)}
+      <div className='row'>
+        {product && (
+          <div className='col-8 mb-3'>
+            <Card product={product} showViewProductButton={false} />
+          </div>
+        )}
       </div>
     </Layout>
   );
