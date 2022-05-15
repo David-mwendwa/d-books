@@ -11,7 +11,7 @@ import AddCategory from './admin/AddCategory';
 import AddProduct from './admin/AddProduct';
 import Shop from './core/Shop';
 import Product from './core/Product';
-import Cart from './core/Cart';
+import Cart from './core/Cart.new';
 
 const _Routes = () => {
   return (

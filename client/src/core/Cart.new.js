@@ -5,13 +5,34 @@ import Layout from './Layout';
 import { getCart } from './cartUtils';
 import Card from './Card';
 import { Link } from 'react-router-dom';
+import ShowImage from './ShowImage';
+import { FaMinus, FaPlus, FaTrash } from 'react-icons/fa';
+import { updateItem } from './cartUtils';
 
 const Cart = () => {
   const [items, setItems] = useState([]);
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     setItems(getCart());
   }, []);
+
+  const increaseQuantity = (product) => {
+    setCount((prevCount) => prevCount + 1);
+    updateItem(product._id, count);
+  };
+  // const increaseQuantity = (product) => {
+  //   const { _id: id, count, quantity } = product;
+  //   const newQty = count + 1;
+  //   if (newQty > quantity) return;
+  //   setCount(newQty);
+  //   updateItem(id, newQty);
+  // };
+
+  const decreaseQuantity = (product) => {
+    setCount((prevCount) => (prevCount >= 1 ? prevCount - 1 : 1));
+    updateItem(product._id, count);
+  };
 
   return (
     <Layout
@@ -28,10 +49,10 @@ const Cart = () => {
                 <div className='card-body p-4'>
                   <div className='row d-flex justify-content-between align-items-center'>
                     <div className='col-md-2 col-lg-2 col-xl-2'>
-                      <img
-                        src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp'
-                        className='img-fluid rounded-3'
-                        alt='Cotton T-shirt'
+                      <ShowImage
+                        item={product}
+                        url='product'
+                        styles={{ width: '50px' }}
                       />
                     </div>
                     <div className='col-md-3 col-lg-3 col-xl-3'>
@@ -40,32 +61,33 @@ const Cart = () => {
                     <div className='col-md-3 col-lg-3 col-xl-2 d-flex'>
                       <button
                         className='btn btn-link px-2'
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                        <i className='fa fa-minus'></i>
+                        onClick={() => decreaseQuantity(product)}>
+                        <FaMinus />
                       </button>
 
                       <input
                         id='form1'
                         min='0'
                         name='quantity'
-                        value='2'
+                        value={count}
+                        readOnly
                         type='number'
                         className='form-control form-control-sm'
                       />
 
                       <button
                         className='btn btn-link px-2'
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                        <i className='fa fa-plus'></i>
+                        onClick={() => increaseQuantity(product)}>
+                        <FaPlus />
                       </button>
                     </div>
                     <div className='col-md-3 col-lg-2 col-xl-2 offset-lg-1'>
                       <h5 className='mb-0'>$499.00</h5>
                     </div>
                     <div className='col-md-1 col-lg-1 col-xl-1 text-end'>
-                      <a href='#!' className='text-danger'>
-                        <i className='fa fa-trash fa-lg'></i>
-                      </a>
+                      <button className='btn btn-link px-2 text-danger'>
+                        <FaTrash />
+                      </button>
                     </div>
                   </div>
                 </div>

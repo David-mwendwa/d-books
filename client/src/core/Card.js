@@ -24,7 +24,11 @@ const Card = ({ product, showViewProductButton = true }) => {
     <div className='card'>
       <div className='card-header name'>{product.name}</div>
       <div className='card-body'>
-        <ShowImage item={product} url='product' />
+        <ShowImage
+          item={product}
+          url='product'
+          styles={{ maxHeight: '100%', maxWidth: '100%' }}
+        />
         <p className='lead mt-3'>{product && product.description}</p>
         <p className='black-10'>${product.price}</p>
         <p className='black-9'>
