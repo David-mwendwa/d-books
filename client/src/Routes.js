@@ -11,6 +11,7 @@ import AddCategory from './admin/AddCategory';
 import AddProduct from './admin/AddProduct';
 import Shop from './core/Shop';
 import Product from './core/Product';
+import Cart from './core/Cart';
 
 const _Routes = () => {
   return (
@@ -60,6 +61,8 @@ const _Routes = () => {
           }
           exact
         />
+
+        <Route path='/cart' element={<Cart />} exact />
       </Routes>
     </BrowserRouter>
   );
