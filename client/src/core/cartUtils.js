@@ -43,6 +43,7 @@ export const getCart = () => {
   return [];
 };
 
+// TODO: update this function to work properly
 export const updateItem = (productId, count) => {
   let cart = [];
   if (typeof window !== 'undefined') {
@@ -62,4 +63,16 @@ export const updateItem = (productId, count) => {
     );
     localStorage.setItem('cart', JSON.stringify(cart));
   }
+};
+
+export const removeItem = (productId) => {
+  let cart = [];
+  if (typeof window !== 'undefined') {
+    if (localStorage.getItem('cart')) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    }
+  }
+  let newCart = cart.filter(product => product._id !== productId)
+  localStorage.setItem('cart', JSON.stringify(newCart));
+  
 };

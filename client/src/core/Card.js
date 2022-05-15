@@ -10,7 +10,7 @@ const Card = ({ product, showViewProductButton = true }) => {
 
   const addToCart = () => {
     addItem(product, () => {
-      navigate('/cart')
+      //navigate('/cart')
     });
   };
 

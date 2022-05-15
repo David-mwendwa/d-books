@@ -7,7 +7,7 @@ import Card from './Card';
 import { Link } from 'react-router-dom';
 import ShowImage from './ShowImage';
 import { FaMinus, FaPlus, FaTrash } from 'react-icons/fa';
-import { updateItem } from './cartUtils';
+import { updateItem, removeItem } from './cartUtils';
 
 const Cart = () => {
   const [items, setItems] = useState([]);
@@ -30,8 +30,14 @@ const Cart = () => {
   // };
 
   const decreaseQuantity = (product) => {
-    setCount((prevCount) => (prevCount >= 1 ? prevCount - 1 : 1));
+    setCount((prevCount) => (prevCount > 1 ? prevCount - 1 : 1));
     updateItem(product._id, count);
+  };
+
+  const handleDelete = (id) => {
+    const newItems = items.filter((item) => item._id !== id);
+    setItems(newItems);
+    removeItem(id);
   };
 
   return (
@@ -56,7 +62,7 @@ const Cart = () => {
                       />
                     </div>
                     <div className='col-md-3 col-lg-3 col-xl-3'>
-                      <p className='lead fw-normal mb-2'>Basic T-shirt</p>
+                      <p className='lead fw-normal mb-2'>{product.name}</p>
                     </div>
                     <div className='col-md-3 col-lg-3 col-xl-2 d-flex'>
                       <button
@@ -82,11 +88,11 @@ const Cart = () => {
                       </button>
                     </div>
                     <div className='col-md-3 col-lg-2 col-xl-2 offset-lg-1'>
-                      <h5 className='mb-0'>$499.00</h5>
+                      <h5 className='mb-0'>${product.price.toFixed(2)}</h5>
                     </div>
                     <div className='col-md-1 col-lg-1 col-xl-1 text-end'>
                       <button className='btn btn-link px-2 text-danger'>
-                        <FaTrash />
+                        <FaTrash onClick={() => handleDelete(product._id)} />
                       </button>
                     </div>
                   </div>
