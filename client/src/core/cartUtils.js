@@ -44,25 +44,38 @@ export const getCart = () => {
 };
 
 // TODO: update this function to work properly
+// export const updateItem = (productId, count) => {
+//   let cart = [];
+//   if (typeof window !== 'undefined') {
+//     if (localStorage.getItem('cart')) {
+//       cart = JSON.parse(localStorage.getItem('cart'));
+//     }
+
+//     // cart.map((product, i) => {
+//     //   if (product._id === productId) {
+//     //     cart[i].count = count;
+//     //   }
+//     //   return cart;
+//     // });
+
+//     cart.map((product, i) =>
+//       product._id === productId ? (cart[i].count = count) : cart
+//     );
+//     localStorage.setItem('cart', JSON.stringify(cart));
+//   }
+// };
+
 export const updateItem = (productId, count) => {
   let cart = [];
   if (typeof window !== 'undefined') {
     if (localStorage.getItem('cart')) {
       cart = JSON.parse(localStorage.getItem('cart'));
     }
-
-    // cart.map((product, i) => {
-    //   if (product._id === productId) {
-    //     cart[i].count = count;
-    //   }
-    //   return cart;
-    // });
-
-    cart.map((product, i) =>
-      product._id === productId ? (cart[i].count = count) : cart
-    );
-    localStorage.setItem('cart', JSON.stringify(cart));
   }
+  const updateCart = cart.map((item) =>
+    item._id === productId ? { ...item, count } : item
+  );
+  localStorage.setItem('cart', JSON.stringify(updateCart));
 };
 
 export const removeItem = (productId) => {
@@ -72,7 +85,8 @@ export const removeItem = (productId) => {
       cart = JSON.parse(localStorage.getItem('cart'));
     }
   }
-  let newCart = cart.filter(product => product._id !== productId)
+  let newCart = cart.filter((product) => product._id !== productId);
   localStorage.setItem('cart', JSON.stringify(newCart));
-  
 };
+
+// TODO: Update cart total
