@@ -14,14 +14,16 @@ const Cart = () => {
   return (
     <Layout
       title='Shopping Cart'
-      description='Manage your cart items> Add remove, checkout or continue shopping'
+      description='Manage your cart items. Add remove, checkout or continue shopping'
       className='container-fluid'>
       <div className='row'>
         <div className='col-6'>
           <h2>Your cart has {`${items.length}`} items</h2>
           <hr />
           {items.length ? (
-            items.map((product, i) => <Card key={i} product={product} />)
+            items.map((product, i) => (
+              <Card key={i} product={product} showAddToCartButton={false} />
+            ))
           ) : (
             <h2>
               Your cart is empty <br />{' '}
@@ -29,7 +31,7 @@ const Cart = () => {
             </h2>
           )}
         </div>
-        <div className="col-6">
+        <div className='col-6'>
           <p>Show checkout options/shipping address/total/update quantity</p>
         </div>
       </div>
