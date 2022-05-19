@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
-import { getCart } from './cartUtils';
+import { getCart, removeItem } from './cartUtils';
 import Card from './Card';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const Cart = () => {
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [items]);
 
   return (
     <Layout
@@ -27,6 +27,7 @@ const Cart = () => {
                 product={product}
                 showAddToCartButton={false}
                 cartUpdate={true}
+                showRemoveProductButton={true}
               />
             ))
           ) : (

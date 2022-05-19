@@ -61,6 +61,24 @@ export const updateItem = (productId, count) => {
   }
 };
 
+export const removeItem = (productId) => {
+  let cart = [];
+  if (typeof window !== 'undefined') {
+    if (localStorage.getItem('cart')) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
+    cart.map((product, i) => {
+      if (product._id === productId) {
+        return cart.splice(i, 1);
+      }
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+  return cart
+};
+
 // export const updateItem = (productId, count) => {
 //   let cart = [];
 //   if (typeof window !== 'undefined') {
@@ -74,15 +92,16 @@ export const updateItem = (productId, count) => {
 //   localStorage.setItem('cart', JSON.stringify(updateCart));
 // };
 
-export const removeItem = (productId) => {
-  let cart = [];
-  if (typeof window !== 'undefined') {
-    if (localStorage.getItem('cart')) {
-      cart = JSON.parse(localStorage.getItem('cart'));
-    }
-  }
-  let newCart = cart.filter((product) => product._id !== productId);
-  localStorage.setItem('cart', JSON.stringify(newCart));
-};
+// Alternative
+// export const removeItem = (productId) => {
+//   let cart = [];
+//   if (typeof window !== 'undefined') {
+//     if (localStorage.getItem('cart')) {
+//       cart = JSON.parse(localStorage.getItem('cart'));
+//     }
+//   }
+//   let newCart = cart.filter((product) => product._id !== productId);
+//   localStorage.setItem('cart', JSON.stringify(newCart));
+// };
 
 // TODO: Update cart total

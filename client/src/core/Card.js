@@ -3,13 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import ShowImage from './ShowImage';
 import moment from 'moment';
 import { addItem } from './cartUtils';
-import { updateItem } from './cartUtils';
+import { updateItem, removeItem } from './cartUtils';
 
 const Card = ({
   product,
   showViewProductButton = true,
   showAddToCartButton = true,
   cartUpdate = false,
+  showRemoveProductButton = false,
 }) => {
   const navigate = useNavigate();
   const [count, setCount] = useState(product.count);
@@ -80,6 +81,14 @@ const Card = ({
                 />
               </div>
             </div>
+          )}
+
+          {showRemoveProductButton && (
+            <button
+              onClick={() => removeItem(product._id)}
+              className='btn btn-outline-danger mt-2 mb-2'>
+              Remove Product
+            </button>
           )}
         </div>
       </div>
