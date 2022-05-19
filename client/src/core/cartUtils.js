@@ -43,40 +43,36 @@ export const getCart = () => {
   return [];
 };
 
-// TODO: update this function to work properly
-// export const updateItem = (productId, count) => {
-//   let cart = [];
-//   if (typeof window !== 'undefined') {
-//     if (localStorage.getItem('cart')) {
-//       cart = JSON.parse(localStorage.getItem('cart'));
-//     }
-
-//     // cart.map((product, i) => {
-//     //   if (product._id === productId) {
-//     //     cart[i].count = count;
-//     //   }
-//     //   return cart;
-//     // });
-
-//     cart.map((product, i) =>
-//       product._id === productId ? (cart[i].count = count) : cart
-//     );
-//     localStorage.setItem('cart', JSON.stringify(cart));
-//   }
-// };
-
 export const updateItem = (productId, count) => {
   let cart = [];
   if (typeof window !== 'undefined') {
     if (localStorage.getItem('cart')) {
       cart = JSON.parse(localStorage.getItem('cart'));
     }
+
+    cart.map((product, i) => {
+      if (product._id === productId) {
+        cart[i].count = count;
+        return cart;
+      }
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
   }
-  const updateCart = cart.map((item) =>
-    item._id === productId ? { ...item, count } : item
-  );
-  localStorage.setItem('cart', JSON.stringify(updateCart));
 };
+
+// export const updateItem = (productId, count) => {
+//   let cart = [];
+//   if (typeof window !== 'undefined') {
+//     if (localStorage.getItem('cart')) {
+//       cart = JSON.parse(localStorage.getItem('cart'));
+//     }
+//   }
+//   const updateCart = cart.map((item) =>
+//     item._id === productId ? { ...item, count } : item
+//   );
+//   localStorage.setItem('cart', JSON.stringify(updateCart));
+// };
 
 export const removeItem = (productId) => {
   let cart = [];

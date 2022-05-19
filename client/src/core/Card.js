@@ -3,14 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import ShowImage from './ShowImage';
 import moment from 'moment';
 import { addItem } from './cartUtils';
+import { updateItem } from './cartUtils';
 
 const Card = ({
   product,
   showViewProductButton = true,
   showAddToCartButton = true,
+  cartUpdate = false,
 }) => {
   const navigate = useNavigate();
-  // const [redirect, setRedirect] = useState(false);
+  const [count, setCount] = useState(product.count);
 
   const addToCart = () => {
     addItem(product, () => {
@@ -18,11 +20,12 @@ const Card = ({
     });
   };
 
-  // const shouldRedirect = () => {
-  //   if (redirect) {
-  //     navigate('/cart');
-  //   }
-  // };
+  const handleChange = (productId) => (event) => {
+    setCount(event.target.value < 1 ? 1 : event.target.value);
+    if (event.target.value >= 1) {
+      updateItem(productId, event.target.value);
+    }
+  };
 
   return (
     <div className='card'>
@@ -61,6 +64,22 @@ const Card = ({
               className='btn btn-outline-warning mt-2 mb-2'>
               Add to cart
             </button>
+          )}
+
+          {cartUpdate && (
+            <div>
+              <div className='input-group mb-3'>
+                <div className='input-group-prepend'>
+                  <span className='input-group-text'>Adjust Quantity</span>
+                </div>
+                <input
+                  type='number'
+                  className='form-control'
+                  value={count}
+                  onChange={handleChange(product._id)}
+                />
+              </div>
+            </div>
           )}
         </div>
       </div>

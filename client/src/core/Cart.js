@@ -22,7 +22,12 @@ const Cart = () => {
           <hr />
           {items.length ? (
             items.map((product, i) => (
-              <Card key={i} product={product} showAddToCartButton={false} />
+              <Card
+                key={i}
+                product={product}
+                showAddToCartButton={false}
+                cartUpdate={true}
+              />
             ))
           ) : (
             <h2>
